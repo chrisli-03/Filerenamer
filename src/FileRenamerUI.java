@@ -150,6 +150,9 @@ public class FileRenamerUI {
 				String newFilename = userInputFilename.getText();
 				
 				if (newFilename.length() > 0) {
+					if (newFilename.length() > 255) {
+						newFilename = newFilename.substring(0, 255);
+					}
 					keepExtention = rdbtnKeepExtension.isSelected();
 					int numberOfFiles = fileList.length;
 					int numberOfDigits = countDigits(numberOfFiles);
