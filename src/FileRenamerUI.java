@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 
 public class FileRenamerUI {
 
+	// UI variables
 	private boolean keepExtention;
 	private File fileList[];
 	private JFrame frame;
@@ -60,12 +61,16 @@ public class FileRenamerUI {
 	 */
 	private void initialize() {
 		
+		// Setup Frame
 		frame = new JFrame();
 		frame.setBounds(100, 100, 500, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
 		
+		//
+		// Setup UI panels
+		//
 		Panel fileDisplayPanel = new Panel();
 		fileDisplayPanel.setBounds(0, 1, 289, 216);
 		frame.getContentPane().add(fileDisplayPanel);
@@ -132,59 +137,92 @@ public class FileRenamerUI {
 		txtMadeBy.setText("Made by - Hecheng Li");
 		txtMadeBy.setEditable(false);
 		
+		// ----Setup UI End Here----
+		
+		// File Chooser
 		SimpleFileChooser JFileChooser = new SimpleFileChooser ();
 		
+		// 
+		// Click event for Select Files button
+		//
 		btnSelectFiles.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				// Start file chooser
 				fileList = JFileChooser.run();
 				if (fileList != null) {
+					// Update file display panel if any file is chosen
 					updateFileDisplay(fileDisplayList);
 				}
 			}
 		});
 		
+		// 
+		// Click event for Rename button
+		//
 		btnRename.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				// Get user desired name
 				String newFilename = userInputFilename.getText();
 				
+				// Check if user made an input
 				if (newFilename.length() > 0) {
+					// Set limit on file length
 					if (newFilename.length() > 255) {
 						newFilename = newFilename.substring(0, 255);
 					}
+					
+					// Check keep extension radio button
 					keepExtention = rdbtnKeepExtension.isSelected();
+					
+					// Count number of files user selected
 					int numberOfFiles = fileList.length;
 					int numberOfDigits = countDigits(numberOfFiles);
 					
+					// Look for # symbol
 					int sequenceNumberPosition = getSequenceNumberPosition(newFilename);
+					
+					// Setup list of new name
 					List<String> nameList = new ArrayList<String>();
 					for (int i = 0; i < numberOfFiles; i++) {
+						// Split filename into prefix, suffix, extension, and sequence number
 						String prefix = newFilename.substring(0, sequenceNumberPosition);
 						String suffix = "";
 						String extension = "";
+						
+						// Check extension
 						if (keepExtention) {
 							int dot = fileList[i].getName().lastIndexOf('.');
 							if (dot > 0) {
 							    extension = fileList[i].getName().substring(dot);
 							}
 						}
+						
+						// Check existance of suffix
 						if (sequenceNumberPosition < newFilename.length()-1) {
 							suffix = newFilename.substring(sequenceNumberPosition+1, newFilename.length());
 						}
+						
+						// Make sequence number
 						String sequenceNumber = Integer.toString(i);
 						int offset = Integer.parseInt(startingSequenceNumber.getText());
 						if (offset > 0) {
 							sequenceNumber = Integer.toString(i+offset);;
 						}
+						// Add leading 0s
 						while (sequenceNumber.length() < numberOfDigits) {
 							sequenceNumber = "0" + sequenceNumber;
 						}
 						nameList.add(prefix + sequenceNumber + suffix + extension);
 						
 					}
+					
+					// Convert from arraylist to array
 					String[] newNamelist = new String[nameList.size()];
 					nameList.toArray(newNamelist);
+					
+					// Change name of files
 					for (int i = 0; i < numberOfFiles; i++) {
 						Path source = Paths.get(fileList[i].getAbsolutePath());
 						try {
@@ -195,6 +233,7 @@ public class FileRenamerUI {
 							e.printStackTrace();
 						}
 					}
+					// Update file display panel after name changed
 					updateFileDisplay(fileDisplayList);
 				}
 			}
@@ -205,6 +244,9 @@ public class FileRenamerUI {
 		return this.frame;
 	}
 	
+	/**
+	 * Update File Display Panel
+	 */
 	private void updateFileDisplay(JList list) {
 		DefaultListModel model = new DefaultListModel();
 		for (int i = 0; i < fileList.length; i++) {
@@ -213,6 +255,9 @@ public class FileRenamerUI {
 		list.setModel(model);
 	}
 	
+	/**
+	 * Get Position of Symbol #
+	 */
 	private int getSequenceNumberPosition(String str) {
 		int pos = str.length();
 		int numberOfIndicator = 0;
@@ -226,6 +271,9 @@ public class FileRenamerUI {
 		return pos;
 	}
 	
+	/**
+	 * Count Number Of Digits In A Number
+	 */
 	private int countDigits(int n) {
 		int digits= 0;
 		for (int i = 1; i < n; i = i*10) {
