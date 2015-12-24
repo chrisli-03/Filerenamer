@@ -1,3 +1,5 @@
+//Copyright 2015 Hecheng Li
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
@@ -28,6 +30,7 @@ public class FileRenamerUI {
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
+	private JTextField txtMadeBy;
 
 	/**
 	 * Launch the application.
@@ -76,7 +79,7 @@ public class FileRenamerUI {
 		fileScrollPane.setViewportView(fileDisplayList);
 		
 		Panel buttonDisplayPanel = new Panel();
-		buttonDisplayPanel.setBounds(0, 223, 484, 38);
+		buttonDisplayPanel.setBounds(0, 223, 484, 32);
 		frame.getContentPane().add(buttonDisplayPanel);
 		
 		JButton btnSelectFiles = new JButton("Select Files");
@@ -121,6 +124,13 @@ public class FileRenamerUI {
 		startingSequenceNumber.setBounds(85, 105, 94, 20);
 		optionDisplayPanel.add(startingSequenceNumber);
 		startingSequenceNumber.setText("1");
+		
+		txtMadeBy = new JTextField();
+		txtMadeBy.setBounds(364, 256, 130, 15);
+		frame.getContentPane().add(txtMadeBy);
+		txtMadeBy.setColumns(10);
+		txtMadeBy.setText("Made by - Hecheng Li");
+		txtMadeBy.setEditable(false);
 		
 		SimpleFileChooser JFileChooser = new SimpleFileChooser ();
 		

@@ -1,3 +1,5 @@
+//Copyright 2015 Hecheng Li
+
 public class FileRenamer {
 	public FileRenamer() {
 		

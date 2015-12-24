@@ -1,9 +1,5 @@
-// SimpleFileChooser.java
-// A simple file chooser to see what it takes to make one of these work.
-//
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+//Copyright 2015 Hecheng Li
+
 import javax.swing.*;
 import java.io.File;
 
