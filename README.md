@@ -16,3 +16,6 @@ How to make filename:
 Problems:
   Filename currently too uniformed
   There is currently no way to remove leading 0s, eg change 001 to 1
+
+Note:
+  Save your files first before using to avoid loss of file
